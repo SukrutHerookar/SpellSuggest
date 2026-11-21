@@ -62,15 +62,16 @@ int wagner_fischer(const char *a, const char *b) {
  * @param[in] suggestion_count: size of array
  *
  */
-void print_suggestion(char suggestions[MAX_SUGGEST][WORD_LEN], int suggestion_count) {
-  printf("Did you mean: ");
+void print_suggestion(char suggestions[MAX_SUGGEST][WORD_LEN],
+                      int suggestion_count) {
+
   if (!suggestion_count) {
-    printf("No suggestions found\n\n");
+    printf("No suggestions found\n");
     return;
   }
   for (int i = INITIAL_VAL; i < suggestion_count; i++)
-    printf("%s ", suggestions[i]);
-  printf("?\n\n");
+    printf("%s, ", suggestions[i]);
+  printf("\b\b?\n");
 
   return;
 }
@@ -84,7 +85,7 @@ void print_suggestion(char suggestions[MAX_SUGGEST][WORD_LEN], int suggestion_co
  * @param[in] needle: Word to check and suggest alternatives for
  */
 void spell_suggest(FILE *dict, const char *needle) {
-char suggestion[MAX_SUGGEST][WORD_LEN];
+  char suggestion[MAX_SUGGEST][WORD_LEN];
   char word[WORD_LEN];
   rewind(dict);
   to_lower((char *)needle);
@@ -93,7 +94,7 @@ char suggestion[MAX_SUGGEST][WORD_LEN];
 
     normalize_word(word);
     if ((wagner_fischer((const char *)word, needle)) == WORD_DIST_LIMIT) {
-      strncpy(suggestion[i++],word,WORD_LEN-1);
+      strncpy(suggestion[i++], word, WORD_LEN - 1);
     }
   }
   print_suggestion(suggestion, i);

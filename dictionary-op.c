@@ -18,11 +18,11 @@ struct timespec start, stop;
  * @return 1 if the word was already found, 0 otherwise
  */
 int already_seen(const char *word) {
-	for (int i = 0; i < seen_count; i++) {
-		if (strcmp(seen[i], word) == 0)
-			return 1;
-	}
-	return 0;
+  for (int i = 0; i < seen_count; i++) {
+    if (strcmp(seen[i], word) == 0)
+      return 1;
+  }
+  return 0;
 }
 
 /*
@@ -35,11 +35,11 @@ int already_seen(const char *word) {
  * @param[in] Word from input.txt
  */
 void mark_seen(const char *word) {
-	if (seen_count < MAX_WORDS) {
-		strncpy(seen[seen_count], word, WORD_LEN - 1);
-		seen[seen_count][WORD_LEN - 1] = '\0';
-		seen_count++;
-	}
+  if (seen_count < MAX_WORDS) {
+    strncpy(seen[seen_count], word, WORD_LEN - 1);
+    seen[seen_count][WORD_LEN - 1] = '\0';
+    seen_count++;
+  }
 }
 
 /*
@@ -50,14 +50,14 @@ void mark_seen(const char *word) {
  *  @returns[out] 1 if the word is found else 0
  */
 int in_dictionary(FILE *dict, const char *needle) {
-	char word[WORD_LEN];
-	rewind(dict);
-	while (fscanf(dict, "%29s", word) == 1) {
-		normalize_word(word);
-		if (strcmp(word, needle) == 0)
-			return 1;
-	}
-	return 0;
+  char word[WORD_LEN];
+  rewind(dict);
+  while (fscanf(dict, "%29s", word) == 1) {
+    normalize_word(word);
+    if (strcmp(word, needle) == 0)
+      return 1;
+  }
+  return 0;
 }
 
 /*
@@ -74,23 +74,23 @@ int in_dictionary(FILE *dict, const char *needle) {
  *
  */
 void word_analyze(FILE *fdict, FILE *ftext) {
-	char word[WORD_LEN];
-	clock_gettime(CLOCK_MONOTONIC, &start);
-	while (fscanf(ftext, "%29s", word) == 1) {
-		normalize_word(word);
-		if (already_seen(word)) {
-			correct_spell++;
-			continue;
-		}
-		mark_seen(word);
+  char word[WORD_LEN];
+  clock_gettime(CLOCK_MONOTONIC, &start);
+  while (fscanf(ftext, "%29s", word) == 1) {
+    normalize_word(word);
+    if (already_seen(word)) {
+      correct_spell++;
+      continue;
+    }
+    mark_seen(word);
 
-		if (in_dictionary(fdict, word))
-			correct_spell++;
-		else {
-			printf("Word %s NOT FOUND in dictionary\n", upper_case(word));
-			wrong_spell++;
-			spell_suggest(fdict, word);
-		}
-	}
-	clock_gettime(CLOCK_MONOTONIC, &stop);
+    if (in_dictionary(fdict, word))
+      correct_spell++;
+    else {
+      printf("%s: ", upper_case(word));
+      wrong_spell++;
+      spell_suggest(fdict, word);
+    }
+  }
+  clock_gettime(CLOCK_MONOTONIC, &stop);
 }

@@ -10,10 +10,10 @@
  *
  */
 void to_lower(char *word) {
-	// Lowercase
-	for (char *p = word; *p; p++)
-		*p = tolower((unsigned char )*p);
-	return;
+  // Lowercase
+  for (char *p = word; *p; p++)
+    *p = tolower((unsigned char)*p);
+  return;
 }
 
 /*
@@ -26,20 +26,20 @@ void to_lower(char *word) {
  * @param[in,out]  Word to normalize (modified in place)
  */
 void normalize_word(char *word) {
-	// Lowercase
-	to_lower(word);
+  // Lowercase
+  to_lower(word);
 
-	// remove puntuations
-	char *write = word, *read = word;
-	while (*read) {
-		if (!ispunct((unsigned char )*read)) {
-			*write++ = *read;
-		}
-		read++;
-	}
-	*write = '\0';
-	word = write;
-	return;
+  // remove puntuations
+  char *write = word, *read = word;
+  while (*read) {
+    if (!ispunct((unsigned char)*read)) {
+      *write++ = *read;
+    }
+    read++;
+  }
+  *write = '\0';
+  word = write;
+  return;
 }
 
 /*
@@ -53,8 +53,8 @@ void normalize_word(char *word) {
  *
  * @return Pointer to the modified string in uppercase
  */
-char* upper_case(char *word) {
-	for (char *p = word; *p; p++)
-		*p = toupper((unsigned char )*p);
-	return word;
+char *upper_case(char *word) {
+  for (char *p = word; *p; p++)
+    *p = toupper((unsigned char)*p);
+  return word;
 }
